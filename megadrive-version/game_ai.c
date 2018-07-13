@@ -2,7 +2,7 @@
 #include "utils.h"
 #include "fix32_patch.h"
 #include "game_shufflepuck.h"
-#include "resources.h"
+// #include "resources.h"
 
 /*
 	Enemy game object

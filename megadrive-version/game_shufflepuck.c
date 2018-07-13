@@ -5,7 +5,7 @@
 #include "game_shufflepuck.h"
 #include "game_ai.h"
 #include "game_player.h"
-#include "resources.h"
+// #include "resources.h"
 
 extern shuffle_racket ai;
 extern shuffle_racket player;
@@ -13,7 +13,7 @@ extern shuffle_racket player;
 void game_ShufflePuck()
 {
 	char str[32];	/* debug string */
-	u16 vblCount = 0;
+	// u16 vblCount = 0;
 	u16 vramIndex = TILE_USERINDEX;
 	Sprite *sprites[16];
 	Vect3D_f32 pvect;
@@ -46,7 +46,7 @@ void game_ShufflePuck()
 								fix32DivFloats(64, 132.0), fix32DivFloats(80, 132.0), fix32DivFloats(102, 132.0), fix32DivFloats(132, 132.0)};
 
 	/*	Specific 3D -> 2D Projection */
-	static Vect3D_f32 inline project3DTo2D(fix32 x, fix32 z)
+	Vect3D_f32 inline project3DTo2D(fix32 x, fix32 z)
 	{
 		const fix32 top_left_x = FIX32(120);
 		const fix32 top_right_x = FIX32(320 - 120);
@@ -433,10 +433,7 @@ void game_ShufflePuck()
 
  	SPR_update();	
 
-	SYS_enableInts();
-
-	// SND_startPlay_XGM(maak_music_2);
-	// SND_setMusicTempo_XGM(50);		
+	SYS_enableInts();	
 
 	gameReset();
 	gameUpdateScoreDisplay();

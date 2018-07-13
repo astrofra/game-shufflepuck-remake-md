@@ -1,7 +1,7 @@
 #include <genesis.h>
 #include "utils.h"
 #include "game_shufflepuck.h"
-#include "resources.h"
+// #include "resources.h"
 
 #ifndef SHUFFLE_PLAYER
 #define SHUFFLE_PLAYER

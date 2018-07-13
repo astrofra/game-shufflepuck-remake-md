@@ -267,7 +267,7 @@ void menu_MainScreen(){
 				scroll_PLAN_B[i] = -160; //-
 			}
 		}
-		VDP_setHorizontalScrollTile(PLAN_B, 0 , &scroll_PLAN_B, TABLE_LEN, FALSE);
+		VDP_setHorizontalScrollTile(PLAN_B, 0 , scroll_PLAN_B, TABLE_LEN, FALSE);
 		VDP_drawImageEx(PLAN_B, &menu_bgstory, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, vramIndex), 0, 0, TRUE, FALSE);
 		VDP_waitVSync();
 		seq++;
@@ -336,6 +336,6 @@ void menu_MainScreen(){
 			default:
 			break;
 		}
-		VDP_setHorizontalScrollTile(PLAN_B, 0 , &scroll_PLAN_B, TABLE_LEN, FALSE);
+		VDP_setHorizontalScrollTile(PLAN_B, 0 , scroll_PLAN_B, TABLE_LEN, FALSE);
 	}
 }
