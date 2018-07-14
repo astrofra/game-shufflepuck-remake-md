@@ -1,7 +1,4 @@
-import gs
-import gs.plus.render as render
-import gs.plus.input as input
-import gs.plus.clock as clock
+import harfang as hg
 
 import math
 from utils import *
@@ -47,17 +44,17 @@ def gameReset():
 
 def renderBall(ball_2d_x, ball_2d_y, ball_2d_scale):
 	# Ball
-	render.sprite2d(SCR_MARGIN_X + ball_2d_x, ball_2d_y - (65 * SCR_SCALE_FACTOR), 24 * SCR_SCALE_FACTOR * ball_2d_scale, "@assets/game_ball.png")
+	plus.Sprite2D(SCR_MARGIN_X + ball_2d_x, ball_2d_y - (65 * SCR_SCALE_FACTOR), 24 * SCR_SCALE_FACTOR * ball_2d_scale, "@assets/game_ball.png")
 
 
 def renderPlayer(player_2d_x, player_2d_y, player_2d_scale):
 	# Player racket
-	render.sprite2d(SCR_MARGIN_X + player_2d_x, player_2d_y - (65 * SCR_SCALE_FACTOR), 64 * SCR_SCALE_FACTOR * player_2d_scale, "@assets/game_racket.png")
+	plus.Sprite2D(SCR_MARGIN_X + player_2d_x, player_2d_y - (65 * SCR_SCALE_FACTOR), 64 * SCR_SCALE_FACTOR * player_2d_scale, "@assets/game_racket.png")
 
 
 def renderAI(ai_2d_x, ai_2d_y, ai_2d_scale):
 	# Player racket
-	render.sprite2d(SCR_MARGIN_X + ai_2d_x, ai_2d_y - (65 * SCR_SCALE_FACTOR), 64 * SCR_SCALE_FACTOR * ai_2d_scale, "@assets/game_racket.png")
+	plus.Sprite2D(SCR_MARGIN_X + ai_2d_x, ai_2d_y - (65 * SCR_SCALE_FACTOR), 64 * SCR_SCALE_FACTOR * ai_2d_scale, "@assets/game_racket.png")
 
 
 def ballIsBehindRacket(ball, racket):
@@ -71,7 +68,8 @@ def gameMainLoop(mouse_device):
 	ball.update(dt)
 
 	# Update the player motion
-	player.setMouse(mouse_device.GetValue(gs.InputDevice.InputAxisX) / SCR_DISP_WIDTH, mouse_device.GetValue(gs.InputDevice.InputAxisY) / SCR_DISP_HEIGHT)
+	mouse_x, mouse_y = plus.GetMousePos()
+	player.setMouse(mouse_x / SCR_DISP_WIDTH, mouse_y / SCR_DISP_HEIGHT)
 	player.update(dt)
 
 	# Update the AI
@@ -98,16 +96,16 @@ def gameMainLoop(mouse_device):
 	ai_2d_x *= SCR_SCALE_FACTOR
 	ai_2d_y = SCR_DISP_HEIGHT - (ai_2d_y * SCR_SCALE_FACTOR)
 
-	render.clear()
-	render.set_blend_mode2d(render.BlendAlpha)
+	# render.clear()
+	plus.SetBlend2D(hg.BlendAlpha)
 	# Opponent
-	render.sprite2d(SCR_MARGIN_X + (320 * 0.5) * SCR_SCALE_FACTOR, (SCR_PHYSIC_HEIGHT - 96 * 0.5) * SCR_SCALE_FACTOR, 106 * SCR_SCALE_FACTOR, "@assets/robot5.png")
+	plus.Sprite2D(SCR_MARGIN_X + (320 * 0.5) * SCR_SCALE_FACTOR, (SCR_PHYSIC_HEIGHT - 96 * 0.5) * SCR_SCALE_FACTOR, 106 * SCR_SCALE_FACTOR, "@assets/robot5.png")
 
 	# Game board
-	render.image2d(SCR_MARGIN_X, 0, SCR_SCALE_FACTOR, "@assets/game_board.png")
+	plus.Image2D(SCR_MARGIN_X, 0, SCR_SCALE_FACTOR, "@assets/game_board.png")
 
 	# Score panel
-	render.image2d(SCR_MARGIN_X, SCR_DISP_HEIGHT - (32 * SCR_SCALE_FACTOR), SCR_SCALE_FACTOR, "@assets/game_score_panel.png")
+	plus.Image2D(SCR_MARGIN_X, SCR_DISP_HEIGHT - (32 * SCR_SCALE_FACTOR), SCR_SCALE_FACTOR, "@assets/game_score_panel.png")
 
 	# Render moving items according to their Z position
 	renderAI(ai_2d_x, ai_2d_y, ai_2d_scale)
@@ -119,7 +117,7 @@ def gameMainLoop(mouse_device):
 		renderPlayer(player_2d_x, player_2d_y, player_2d_scale)
 		renderBall(ball_2d_x, ball_2d_y, ball_2d_scale)
 
-	render.set_blend_mode2d(render.BlendOpaque)
+	plus.SetBlend2D(hg.BlendOpaque)
 
 def BallIsWithinXReach(ball, racket):
 	if ball.pos_x + ball.radius > racket.pos_x - racket.width * 0.5 and ball.pos_x - ball.radius < racket.pos_x + racket.width * 0.5:
@@ -142,26 +140,29 @@ SCR_DISP_HEIGHT = 200 * 2
 SCR_SCALE_FACTOR = min(SCR_DISP_WIDTH / SCR_PHYSIC_WIDTH, SCR_DISP_HEIGHT / SCR_PHYSIC_HEIGHT)
 SCR_MARGIN_X = (SCR_DISP_WIDTH - (SCR_PHYSIC_WIDTH * SCR_SCALE_FACTOR)) / 2.0
 
-gs.LoadPlugins(gs.get_default_plugins_path())
+hg.LoadPlugins()
+plus = hg.GetPlus()
 
-render.init(SCR_DISP_WIDTH, SCR_DISP_HEIGHT, "pkg.core")
+plus.RenderInit(SCR_DISP_WIDTH, SCR_DISP_HEIGHT)
 
 # provide access to the data folder
-gs.MountFileDriver(gs.StdFileDriver("assets/"), "@assets/")
+hg.MountFileDriver(hg.StdFileDriver("assets/"), "@assets/")
 
 gameReset()
 player.initial_pox_z = (board.board_length * 0.45)
 player.reset()
 
-while not input.key_press(gs.InputDevice.KeyEscape):
-	dt = clock.update() # 1.0 / 60.0
+# get the mouse device
+mouse_device = plus.GetMouse()
+
+while not plus.IsAppEnded():
+	plus.Clear()
+	dt = plus.UpdateClock() # 1.0 / 60.0
 
 	# update mouse
-	gs.GetInputSystem().Update()
-
-	# get the mouse device
-	mouse_device = gs.GetInputSystem().GetDevice("mouse")
+	# gs.GetInputSystem().Update()
 
 	gameMainLoop(mouse_device)
 
-	render.flip()
+	plus.Flip()
+	plus.EndFrame()
