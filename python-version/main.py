@@ -157,7 +157,7 @@ mouse_device = plus.GetMouse()
 
 while not plus.IsAppEnded():
 	plus.Clear()
-	dt = plus.UpdateClock() # 1.0 / 60.0
+	dt = hg.time_to_sec_f(plus.UpdateClock()) # 1.0 / 60.0
 
 	# update mouse
 	# gs.GetInputSystem().Update()
