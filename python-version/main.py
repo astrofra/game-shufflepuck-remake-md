@@ -63,12 +63,12 @@ def ballIsBehindRacket(ball, racket):
 
 	return False
 
-def gameMainLoop(mouse_device):
+def gameMainLoop():
 	# Update the ball motion
 	ball.update(dt)
 
 	# Update the player motion
-	mouse_x, mouse_y = plus.GetMousePos()
+	mouse_x, mouse_y = 320, 40 # plus.GetMousePos()
 	player.setMouse(mouse_x / SCR_DISP_WIDTH, mouse_y / SCR_DISP_HEIGHT)
 	player.update(dt)
 
@@ -153,7 +153,7 @@ player.initial_pox_z = (board.board_length * 0.45)
 player.reset()
 
 # get the mouse device
-mouse_device = plus.GetMouse()
+# mouse_device = plus.GetMouse()
 
 while not plus.IsAppEnded():
 	plus.Clear()
@@ -162,7 +162,7 @@ while not plus.IsAppEnded():
 	# update mouse
 	# gs.GetInputSystem().Update()
 
-	gameMainLoop(mouse_device)
+	gameMainLoop()
 
 	plus.Flip()
 	plus.EndFrame()
