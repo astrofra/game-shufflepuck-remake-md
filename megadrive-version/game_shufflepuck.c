@@ -456,9 +456,9 @@ void game_ShufflePuck()
 				break;
 
 			case SFL_GAME_LAUNCH:
-				gameMainLoop(FIX32(1.0/(shuffle_speed_scale * 60.0)), FALSE);
+				gameMainLoop(FIX32(1.0/(shuffle_speed_scale * VIDEO_FREQ)), FALSE);
 
-				if (slf_game_timer > 1 * 60)
+				if (slf_game_timer > 1 * VIDEO_FREQ)
 				{
 					ball_setImpulse(FIX32(10.0 * board_scale * shuffle_speed_scale), FIX32(10.0 * board_scale * shuffle_speed_scale));
 					sfl_game_state = SFL_GAME_PLAY;
@@ -467,7 +467,7 @@ void game_ShufflePuck()
 				break;
 
 			case SFL_GAME_PLAY:
-				gameMainLoop(FIX32(1.0/(shuffle_speed_scale * 60.0)), TRUE);
+				gameMainLoop(FIX32(1.0/(shuffle_speed_scale * VIDEO_FREQ)), TRUE);
 				break;
 
 			case SFL_GAME_GOAL:
@@ -476,9 +476,9 @@ void game_ShufflePuck()
 				break;
 
 			case SFL_GAME_POSTGOAL:
-				gameMainLoop(FIX32(1.0/(shuffle_speed_scale * 60.0)), FALSE);
+				gameMainLoop(FIX32(1.0/(shuffle_speed_scale * VIDEO_FREQ)), FALSE);
 
-				if (slf_game_timer > 2 * 60)
+				if (slf_game_timer > 2 * VIDEO_FREQ)
 					sfl_game_state = SFL_GAME_SCORE_UPD;
 
 				break;

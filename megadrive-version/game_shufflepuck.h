@@ -3,6 +3,18 @@
 #ifndef SHUFFLE_GAME
 #define SHUFFLE_GAME
 
+/*	The whole game logic, physics and timings are based
+	on the frequency of the video system.
+	- If you need to build a PAL version, 
+	  simply change the value above from 60 to 50.
+	- If you want to build a super slow version,
+	  simply change the value above to 300...
+*/
+#define VIDEO_FREQ	60
+
+/*	The board, rackets and puck are simulated in 2D.
+	The board size is defined below.
+*/
 #define board_scale 2
 #define shuffle_speed_scale 3
 #define board_width FIX32(16.5 * board_scale)

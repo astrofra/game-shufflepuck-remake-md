@@ -44,14 +44,19 @@ function ballIsBehindRacket(ball, racket)
 end
 
 function gameMainLoop(dt)
+  -- Update the ball motion
   ball:update(dt)
 
+  -- Update the player motion
   local mouse_x, mouse_y = plus:GetMousePos()
   player:setMouse(mouse_x/SCR_DISP_WIDTH, mouse_y/SCR_DISP_HEIGHT)
   player:update(dt)
+
+  -- Update the AI
   ai:updateGameData(ball.pos_x, ball.pos_z)
   ai:update(dt)
 
+  -- Collisions
   if ball.velocity_z>0.0 then
     if  (not ballIsBehindRacket(ball, player)) and (BallWasWithinXReach(ball, player) or BallIsWithinXReach(ball, player)) then
       ball:setPosition(ball.pos_x, player.pos_z-ball.velocity_z*dt+math.min(0.0, player.velocity_z)*dt)
@@ -60,6 +65,7 @@ function gameMainLoop(dt)
     end
   end
 
+  -- Compute 3D/2D projections
   local ball_2d_x, ball_2d_y, ball_2d_scale = unpack(project3DTo2D(ball.pos_x, ball.pos_z, board.board_width, board.board_length))
   ball_2d_x = ball_2d_x*SCR_SCALE_FACTOR
   ball_2d_y = SCR_DISP_HEIGHT-ball_2d_y*SCR_SCALE_FACTOR
@@ -73,9 +79,17 @@ function gameMainLoop(dt)
   ai_2d_y = SCR_DISP_HEIGHT-ai_2d_y*SCR_SCALE_FACTOR
 
   plus:SetBlend2D(hg.BlendAlpha)
+
+  -- Render the Opponent (AI)
   plus:Sprite2D(SCR_MARGIN_X+320*0.5*SCR_SCALE_FACTOR, (SCR_PHYSIC_HEIGHT-96*0.5)*SCR_SCALE_FACTOR, 106*SCR_SCALE_FACTOR, '@assets/robot5.png')
+
+  -- Game board
   plus:Image2D(SCR_MARGIN_X, 0, SCR_SCALE_FACTOR, '@assets/game_board.png')
+
+  -- Score panel
   plus:Image2D(SCR_MARGIN_X, SCR_DISP_HEIGHT-32*SCR_SCALE_FACTOR, SCR_SCALE_FACTOR, '@assets/game_score_panel.png')
+
+  -- Render moving items according to their Z position
   renderAI(ai_2d_x, ai_2d_y, ai_2d_scale)
 
   if ball.pos_z-ball.radius<player.pos_z+player.length then

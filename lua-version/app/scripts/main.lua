@@ -33,7 +33,7 @@ player:reset()
 
 while not plus:IsAppEnded() do
   plus:Clear()
-  local dt = hg.time_to_sec_f(plus:UpdateClock())
+  local dt = hg.time_to_sec_f(plus:UpdateClock()) -- = 1.0 / 60.0
   gameMainLoop(dt)
   plus:Flip()
   plus:EndFrame()

@@ -53,7 +53,7 @@ def renderPlayer(player_2d_x, player_2d_y, player_2d_scale):
 
 
 def renderAI(ai_2d_x, ai_2d_y, ai_2d_scale):
-	# Player racket
+	# AI racket
 	plus.Sprite2D(SCR_MARGIN_X + ai_2d_x, ai_2d_y - (65 * SCR_SCALE_FACTOR), 64 * SCR_SCALE_FACTOR * ai_2d_scale, "@assets/game_racket.png")
 
 
@@ -68,7 +68,7 @@ def gameMainLoop():
 	ball.update(dt)
 
 	# Update the player motion
-	mouse_x, mouse_y = 320, 40 # plus.GetMousePos()
+	mouse_x, mouse_y = plus.GetMousePos()
 	player.setMouse(mouse_x / SCR_DISP_WIDTH, mouse_y / SCR_DISP_HEIGHT)
 	player.update(dt)
 
@@ -152,15 +152,9 @@ gameReset()
 player.initial_pox_z = (board.board_length * 0.45)
 player.reset()
 
-# get the mouse device
-# mouse_device = plus.GetMouse()
-
 while not plus.IsAppEnded():
 	plus.Clear()
-	dt = hg.time_to_sec_f(plus.UpdateClock()) # 1.0 / 60.0
-
-	# update mouse
-	# gs.GetInputSystem().Update()
+	dt = hg.time_to_sec_f(plus.UpdateClock()) # = 1.0 / 60.0
 
 	gameMainLoop()
 
