@@ -1,6 +1,5 @@
 # Shufflepuck Cafe Megadrive Reboot
 * Original game by Broderbund Software
-* Reboot by Z-Team
 * Project boostrap by Astrofra
 
 ## Python prototype
