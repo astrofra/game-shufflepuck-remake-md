@@ -7,12 +7,13 @@ Prototype of the core game mechanics in Python
 
 * Install Python 3.6 for Windows (64 ou 32bits)
 * Install HARFANG `python.exe -m pip install harfang`
+  * ⚠️ Relies on a _legacy_ version of Harfang
 * Start `main.py`
 * Play!
 
 ## Lua prototype
-Prototype of the core game mechanics in Lua. Exact copy of the Python version, only in Lua. 
- 
+Prototype of the core game mechanics in Lua. Exact copy of the Python version, only in Lua.
+
 * Double click on `start.bat`
 * Play!
 
